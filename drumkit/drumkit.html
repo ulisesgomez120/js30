@@ -58,18 +58,25 @@
   <audio data-key="76" src="sounds/confetti.mp3"></audio>
 
 <script>
-    window.addEventListener('keydown',function(e) {
-        const sound = document.querySelector(`audio[data-key="${e.keyCode}"]`);
-        const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
-        if(!sound) {return};
-        sound.currentTime = 0;
-        sound.play();
-        key.classList.add('playing')
-    })
+  function playSound(e) {
+    const sound = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+    if(!sound) {return};
+    sound.currentTime = 0;
+    sound.play();
+    key.classList.add('playing')
+  }
+  function endTransistion(e){
+    if(e.propertyName !== 'transform') {return};
+    this.classList.remove('playing');
+  };
 
-    const keys = document.querySelectorAll('.key');
-    console.log(keys)
-    // keys.forEach(key => addEventListener() )
+  const keys = document.querySelectorAll('.key');
+  keys.forEach(key => key.addEventListener('transitionend', endTransistion));
+
+  window.addEventListener('keydown',playSound);
+
+  // learned about vanilla js event listeners, playing audios and transition end events
 </script>
 
 
